@@ -1,39 +1,96 @@
 import React, {useEffect, useState} from 'react';
-import {Text, View} from 'react-native';
-import axios from 'axios';
-import {RepositoriesResponse, Repository} from '../api/types';
-import SearchBar from '../components/SearchBar';
+import {ActivityIndicator, ScrollView, StyleSheet, View} from 'react-native';
+import {Repository} from '../api/types';
+import {useSelector} from 'react-redux';
+import {RootState} from '../store';
+import api from '../api';
+import RepositoryListItem from '../components/RepositoryListItem';
+import {Button, Spacer, Text} from '../components/shared';
+import {
+  HomeTabParamList,
+  RootStackParamList,
+} from '../navigators/RootNavigator';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {CompositeScreenProps} from '@react-navigation/core';
+import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
+import Toast from 'react-native-toast-message';
 
-export default function RepositoriesScreen() {
+type Props = CompositeScreenProps<
+  BottomTabScreenProps<HomeTabParamList, 'Repositories'>,
+  NativeStackScreenProps<RootStackParamList>
+>;
+
+export default function RepositoriesScreen({navigation}: Props) {
+  const registeredRepos = useSelector((state: RootState) => state.repositories);
+  const [isLoading, setIsLoading] = useState(false);
   const [repositories, setRepositories] = useState<Repository[]>([]);
 
-  const fetchRepositoriesByKeyword = async (keyword: string) => {
+  const fetchRepositories = async () => {
+    if (registeredRepos.length === 0) {
+      return;
+    }
+
+    const promises = registeredRepos.map(repo =>
+      api.getRepositoryById(repo.id),
+    );
+
+    setIsLoading(true);
     try {
-      const {data} = await axios.get<RepositoriesResponse>(
-        'https://api.github.com/search/repositories',
-        {
-          params: {
-            q: keyword,
-          },
-        },
-      );
-      setRepositories(data.items);
-      console.log(data);
+      const result = await Promise.all(promises);
+      setRepositories(result);
     } catch (error) {
       console.log(error);
+      Toast.show({
+        type: 'error',
+        text1: '오류가 발생했습니다. 잠시 후 다시 시도해주세요.',
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchRepositoriesByKeyword('react-native');
-  }, []);
+    fetchRepositories();
+  }, [registeredRepos]);
+
+  if (registeredRepos.length === 0) {
+    return (
+      <View style={styles.container}>
+        <Text>등록된 저장소가 없습니다.</Text>
+        <Spacer height={12} />
+        <Button
+          label="저장소 찾기"
+          icon={'search'}
+          large
+          onPress={() => {
+            navigation.navigate('Search');
+          }}
+        />
+      </View>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
 
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <SearchBar onSubmit={fetchRepositoriesByKeyword} />
+    <ScrollView>
       {repositories.map(item => (
-        <Text key={`repo-${item.id}`}>{item.name}</Text>
+        <RepositoryListItem key={`repo-${item.id}`} data={item} />
       ))}
-    </View>
+    </ScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});

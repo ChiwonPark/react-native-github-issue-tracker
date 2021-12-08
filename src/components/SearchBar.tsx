@@ -1,26 +1,30 @@
 import React, {useState} from 'react';
-import {Text, View, StyleSheet, TextInput, Button} from 'react-native';
-import Icon from 'react-native-vector-icons/AntDesign';
+import {View, StyleSheet} from 'react-native';
+import {Icon, TextInput} from './shared';
 
 interface SearchBarProps {
-  onSubmit: (keyword: string) => void;
+  onSearch: (keyword: string) => void;
 }
 
-const SearchBar = ({onSubmit}: SearchBarProps) => {
+const SearchBar = ({onSearch}: SearchBarProps) => {
   const [keyword, setKeyword] = useState('');
 
-  const handleSearchPress = () => {
-    onSubmit && onSubmit(keyword);
+  const handleSearch = () => {
+    onSearch && onSearch(keyword);
   };
+
   return (
     <View style={styles.container}>
+      <Icon name="search" size={16} />
       <TextInput
         style={styles.input}
         value={keyword}
+        autoFocus
+        placeholder={'저장소 이름을 입력하세요.'}
         onChangeText={setKeyword}
-        onEndEditing={handleSearchPress}
+        onEndEditing={handleSearch}
+        returnKeyType="search"
       />
-      <Button title="검색" onPress={handleSearchPress} />
     </View>
   );
 };
@@ -30,10 +34,15 @@ export default SearchBar;
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    width: '100%',
+    height: 36,
+    alignItems: 'center',
     backgroundColor: 'white',
+    borderRadius: 18,
+    paddingHorizontal: 8,
+    margin: 8,
   },
   input: {
     flex: 1,
+    marginLeft: 4,
   },
 });
