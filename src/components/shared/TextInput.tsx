@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, {useMemo, useRef} from 'react';
 import {
   StyleProp,
   StyleSheet,
@@ -26,6 +26,7 @@ const TextInput = ({
   placeholderTextColor = '#BBB',
   ...rest
 }: TextInputProps) => {
+  const inputRef = useRef<RNTextInput>(null);
   const visibleClear = useMemo(() => {
     return !!rest.value;
   }, [rest.value]);
@@ -37,11 +38,13 @@ const TextInput = ({
 
   const onClear = () => {
     rest.onChangeText && rest.onChangeText('');
+    inputRef.current && inputRef.current.focus();
   };
 
   return (
     <View style={[styles.textInputBase, styleProp]}>
       <RNTextInput
+        ref={inputRef}
         style={[styles.textBase, textStyle, textStyleProp]}
         placeholderTextColor={placeholderTextColor}
         {...rest}
