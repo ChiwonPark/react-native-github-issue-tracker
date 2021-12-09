@@ -39,9 +39,7 @@ const Chip = ({
   color,
   backgroundColor = '#fff',
   borderColor = backgroundColor,
-  activeColor,
   onPress,
-  onClose,
 }: ChipProps) => {
   const style = {
     backgroundColor,
@@ -62,11 +60,6 @@ const Chip = ({
           size={rightIconSize}
           color={rightIconColor}
         />
-      )}
-      {onClose && (
-        <TouchableWithoutFeedback onPress={onClose}>
-          <Icon name="x-circle-fill" size={12} color="grey" />
-        </TouchableWithoutFeedback>
       )}
     </TouchableOpacity>
   );
@@ -91,11 +84,5 @@ const styles = StyleSheet.create({
   },
   rightIcon: {
     marginLeft: 2,
-  },
-  closeButton: {
-    width: 16,
-    height: 16,
-    borderRadius: 8,
-    backgroundColor: 'gery',
   },
 });

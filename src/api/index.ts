@@ -10,6 +10,7 @@ const apiClient = axios.create({
 });
 
 export default {
+  //for SearchScreen
   getRepositoriesByName: (repoName: string) =>
     apiClient
       .get('/search/repositories', {
@@ -18,32 +19,41 @@ export default {
         },
       })
       .then(response => response.data),
+
+  //for RepositoriesScreen
   getRepositoryById: (repoId: number) =>
     apiClient
       .get<Repository>(`/repositories/${repoId}`)
       .then(response => response.data),
-  getIssues: (query: {
-    type?: 'issue';
+
+  //for IssuesScreen
+  getIssues: ({
+    issueState,
+    repos,
+    sort,
+    order,
+    page,
+  }: {
     repos: string[];
-    page: number;
     issueState: 'all' | 'open' | 'closed';
     sort: 'created' | 'updated';
     order: 'asc' | 'desc';
+    page: number;
   }) =>
     apiClient
       .get<PaginationResponse<Issue>>('/search/issues', {
         params: {
-          q: `is:issue ${
-            query.issueState !== 'all' ? `state:${query.issueState}` : ''
-          } ${query.repos.map(e => 'repo:' + e).join(' ')}`,
-          page: query.page,
-          sort: query.sort,
-          order: query.order,
+          q: `
+          is:issue 
+          ${issueState !== 'all' ? `state:${issueState}` : ''} 
+          ${repos.map(e => 'repo:' + e).join(' ')}`,
+          sort: sort,
+          order: order,
+          page: page,
         },
       })
       .then(response => {
         const {lastPage} = linkParser(response.headers.link || '');
-        console.log(`${query.page} to ${lastPage}`);
         return {
           ...response.data,
           isLastPage: !lastPage,

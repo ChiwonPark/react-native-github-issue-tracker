@@ -113,7 +113,7 @@ const IssueFilter = ({visibleShadow}: IssueFilterProps) => {
       <Chip
         style={styles.chip}
         labelStyle={styles.chipLabel}
-        label="Repositories"
+        label="Repository"
         color={repoChipColor}
         borderColor={repoChipColor}
         rightIcon="triangle-down"
