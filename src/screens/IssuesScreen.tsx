@@ -27,6 +27,7 @@ import {RootState} from '../store';
 import Toast from 'react-native-toast-message';
 import IssueStateFilter from '../components/IssueStateFilter';
 import RepositoryFilter from '../components/RepositoryFilter';
+import colors from '../lib/colors';
 
 type Props = CompositeScreenProps<
   BottomTabScreenProps<HomeTabParamList, 'Issues'>,
@@ -97,8 +98,10 @@ const IssuesScreen = ({navigation}: Props) => {
     fetchIssues();
   }, [filter]);
 
+  let container = null;
+
   if (repositories.length === 0) {
-    return (
+    container = (
       <View style={[styles.container, styles.center]}>
         <Text>먼저 저장소를 등록하세요.</Text>
         <Spacer height={12} />
@@ -113,18 +116,14 @@ const IssuesScreen = ({navigation}: Props) => {
         />
       </View>
     );
-  }
-
-  if (isLoading) {
-    return (
+  } else if (isLoading) {
+    container = (
       <View style={[styles.container, styles.center]}>
         <ActivityIndicator size="large" />
       </View>
     );
-  }
-
-  if (isError) {
-    return (
+  } else if (isError) {
+    container = (
       <View style={[styles.container, styles.center]}>
         <Text>목록을 불러오지 못했습니다.</Text>
         <Spacer height={12} />
@@ -137,44 +136,14 @@ const IssuesScreen = ({navigation}: Props) => {
         />
       </View>
     );
-  }
-
-  if (data.length === 0) {
-    return (
+  } else if (data.length === 0) {
+    container = (
       <View style={[styles.container, styles.center]}>
         <Text>이슈가 없습니다.</Text>
       </View>
     );
-  }
-
-  return (
-    <View style={styles.container}>
-      <View style={styles.filterBlock}>
-        <Button
-          label={`상태: ${filter.issueState || 'all'}`}
-          onPress={() => setVisibleIssueStateFilter(true)}
-        />
-        <Button
-          label={`저장소: ${
-            filter.repoNames && filter.repoNames.length === repositories.length
-              ? 'all'
-              : filter.repoNames.length
-          } `}
-          onPress={() => setVisibleRepositoryFilter(true)}
-        />
-        <IssueStateFilter
-          visible={visibleIssueStateFilter}
-          onRequestClose={() => {
-            setVisibleIssueStateFilter(false);
-          }}
-        />
-        <RepositoryFilter
-          visible={visibleRepositoryFilter}
-          onRequestClose={() => {
-            setVisibleRepositoryFilter(false);
-          }}
-        />
-      </View>
+  } else {
+    container = (
       <FlatList
         style={{flex: 1}}
         refreshControl={
@@ -195,8 +164,33 @@ const IssuesScreen = ({navigation}: Props) => {
           console.log('onEndReached');
           fetchMoreIssues();
         }}
-        keyExtractor={(item, index) => `issue-${item.node_id}`}
+        keyExtractor={item => `issue-${item.node_id}`}
       />
+    );
+  }
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.filterBlock}>
+        <Button
+          label={`상태: ${filter.issueState || 'all'}`}
+          color={
+            filter.issueState === 'open'
+              ? colors.github.issue_opend
+              : filter.issueState === 'closed'
+              ? colors.github.issue_opend
+              : '#000'
+          }
+          onPress={() => setVisibleIssueStateFilter(true)}
+        />
+        <IssueStateFilter
+          visible={visibleIssueStateFilter}
+          onRequestClose={() => {
+            setVisibleIssueStateFilter(false);
+          }}
+        />
+      </View>
+      {container}
     </View>
   );
 };

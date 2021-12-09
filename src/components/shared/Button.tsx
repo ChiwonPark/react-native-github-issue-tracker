@@ -18,6 +18,7 @@ type ButtonProps = {
   icon?: IconType;
   large?: boolean;
   block?: boolean;
+  color?: string;
   onPress?: () => void;
 } & Omit<TouchableOpacityProps, 'children'>;
 
@@ -26,10 +27,17 @@ const Button = ({
   labelStyle: labelStyleProp,
   label,
   icon,
+  color = 'gery',
   onPress = () => {},
 }: ButtonProps) => {
+  const buttonStyle: ViewStyle = {
+    backgroundColor: color,
+  };
+
   return (
-    <TouchableOpacity style={[styles.buttonBase, styleProp]} onPress={onPress}>
+    <TouchableOpacity
+      style={[styles.buttonBase, buttonStyle, styleProp]}
+      onPress={onPress}>
       {!!icon && (
         <Icon style={styles.icon} name={icon} size={16} color="white" />
       )}

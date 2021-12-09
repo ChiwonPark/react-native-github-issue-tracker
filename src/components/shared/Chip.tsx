@@ -1,5 +1,10 @@
 import * as React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import {Icon, IconType, Text} from '.';
 
 type ChipProps = {
@@ -10,7 +15,10 @@ type ChipProps = {
   small?: boolean;
   borderColor?: string;
   backgroundColor?: string;
+  active?: boolean;
+  activeColor?: boolean;
   onPress?: () => void;
+  onClose?: () => void;
 };
 
 const Chip = ({
@@ -20,6 +28,8 @@ const Chip = ({
   color,
   backgroundColor = '#fff',
   borderColor = backgroundColor,
+  activeColor,
+  onClose,
 }: ChipProps) => {
   const style = {
     backgroundColor,
@@ -31,6 +41,11 @@ const Chip = ({
       <Text color={color} fontSize={10}>
         {label}
       </Text>
+      {onClose && (
+        <TouchableWithoutFeedback onPress={onClose}>
+          <Icon name="x-circle-fill" size={12} color="grey" />
+        </TouchableWithoutFeedback>
+      )}
     </View>
   );
 };
@@ -51,5 +66,11 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginRight: 2,
+  },
+  closeButton: {
+    width: 16,
+    height: 16,
+    borderRadius: 8,
+    backgroundColor: 'gery',
   },
 });
