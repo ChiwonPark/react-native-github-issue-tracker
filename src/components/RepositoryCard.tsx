@@ -15,11 +15,11 @@ import {removeRepository} from '../store/slice';
 import Dot from './Dot';
 import {Icon, Spacer, Text} from './shared';
 
-type RepositoryListItemProps = {
+type RepositoryCardProps = {
   data: Repository;
 };
 
-const RepositoryListItem = ({data}: RepositoryListItemProps) => {
+const RepositoryCard = ({data}: RepositoryCardProps) => {
   const dispatch = useDispatch();
   const openBrowser = () => {
     Linking.openURL(data.html_url);
@@ -41,25 +41,30 @@ const RepositoryListItem = ({data}: RepositoryListItemProps) => {
 
   return (
     <View style={styles.container}>
+      {/* 저장소 이름 영역 */}
       <View style={styles.repo}>
         <Image style={styles.avatar} source={{uri: data.owner.avatar_url}} />
         <Text style={styles.repositoryName}>{data.full_name}</Text>
-        <Spacer flex />
-        <TouchableOpacity onPress={handleDelete}>
+        {/* 삭제버튼 */}
+        <TouchableOpacity
+          hitSlop={{top: 12, bottom: 12, left: 12, right: 12}}
+          onPress={handleDelete}>
           <Icon name="trash" size={14} color="#fa5252" />
         </TouchableOpacity>
       </View>
-      <Text style={styles.description}>{data.description}</Text>
 
+      {/* 저장소 설명 */}
+      <Text style={styles.description}>{data.description}</Text>
       <View style={styles.divider} />
 
+      {/* 부가정보 */}
       <View style={styles.subInfo}>
         {/* 스타 */}
         <Icon
           style={styles.subInfoIcon}
           name="star-fill"
           color="#fcc419"
-          size={16}
+          size={14}
         />
         <Text style={styles.subInfoText}>
           {data.stargazers_count.toLocaleString()}
@@ -70,14 +75,16 @@ const RepositoryListItem = ({data}: RepositoryListItemProps) => {
             <Dot
               style={styles.subInfoIcon}
               color={colors.language[data.language.toLowerCase()]}
-              size={12}
+              size={10}
             />
             <Text style={styles.subInfoText}>{data.language}</Text>
           </>
         )}
         <Spacer flex={1} />
         {/* 깃허브 링크 */}
-        <TouchableOpacity onPress={openBrowser}>
+        <TouchableOpacity
+          hitSlop={{top: 12, bottom: 12, left: 12, right: 12}}
+          onPress={openBrowser}>
           <Icon name="mark-github" size={16} />
         </TouchableOpacity>
       </View>
@@ -85,7 +92,7 @@ const RepositoryListItem = ({data}: RepositoryListItemProps) => {
   );
 };
 
-export default RepositoryListItem;
+export default RepositoryCard;
 
 const styles = StyleSheet.create({
   container: {
@@ -117,12 +124,13 @@ const styles = StyleSheet.create({
   avatar: {
     width: 24,
     height: 24,
-    marginRight: 4,
-    resizeMode: 'center',
+    resizeMode: 'cover',
   },
   repositoryName: {
+    flex: 1,
     fontSize: 16,
     fontWeight: '700',
+    marginHorizontal: 6,
   },
   description: {
     marginVertical: 8,

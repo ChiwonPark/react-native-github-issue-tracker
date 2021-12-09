@@ -7,7 +7,7 @@ import Toast from 'react-native-toast-message';
 import {useSelector} from 'react-redux';
 import api from '../api';
 import {Repository} from '../api/types';
-import RepositoryListItem from '../components/RepositoryListItem';
+import RepositoryCard from '../components/RepositoryCard';
 import {Button, Spacer, Text} from '../components/shared';
 import {
   HomeTabParamList,
@@ -82,7 +82,7 @@ export default function RepositoriesScreen({navigation}: Props) {
   return (
     <ScrollView>
       {repositories.map(item => (
-        <RepositoryListItem key={`repo-${item.id}`} data={item} />
+        <RepositoryCard key={`repo-${item.id}`} data={item} />
       ))}
     </ScrollView>
   );
