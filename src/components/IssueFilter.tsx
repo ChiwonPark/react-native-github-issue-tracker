@@ -1,5 +1,5 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {Platform, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import colors from '../lib/colors';
 import {RootState} from '../store';
@@ -8,9 +8,11 @@ import Formatter from '../utils/Formatter';
 import {Button, Chip, Icon, Spacer, Text} from './shared';
 import ModalBase from './shared/ModalBase';
 
-type IssueFilterProps = {};
+type IssueFilterProps = {
+  visibleShadow?: boolean;
+};
 
-const IssueFilter = (props: IssueFilterProps) => {
+const IssueFilter = ({visibleShadow}: IssueFilterProps) => {
   const dispatch = useDispatch();
   const {repositories, filter} = useSelector((state: RootState) => state);
   const {issueState, repos, sort} = filter;
@@ -73,7 +75,7 @@ const IssueFilter = (props: IssueFilterProps) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, visibleShadow && styles.shadow]}>
       <Icon name="filter" size={16} />
       <Spacer width={4} />
       {/* 이슈 상태 필터 */}
@@ -251,6 +253,23 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     alignItems: 'center',
     padding: 8,
+  },
+  shadow: {
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 4,
+        },
+        shadowOpacity: 0.3,
+        shadowRadius: 4.65,
+        zIndex: 1,
+      },
+      android: {
+        elevation: 8,
+      },
+    }),
   },
   chip: {
     height: 28,

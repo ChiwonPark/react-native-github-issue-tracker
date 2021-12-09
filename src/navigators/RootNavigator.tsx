@@ -37,6 +37,12 @@ function HomeTabNavigator({navigation}: HomeTabNavigatorProps) {
     <HomeTab.Navigator
       initialRouteName={repositories.length === 0 ? 'Repositories' : 'Issues'}
       screenOptions={({route}) => ({
+        headerStyle: {
+          //IssuesScreen에서 헤더와 filter 사이에 그림자 생기는 거 방지
+          backgroundColor: 'white',
+          elevation: 0,
+          shadowOpacity: 0,
+        },
         tabBarIcon: ({color, size}) => {
           let iconName: IconType;
 

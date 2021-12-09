@@ -44,6 +44,7 @@ const IssuesScreen = ({navigation}: Props) => {
   const [isLastPage, setIsLastPage] = useState(false);
 
   const [visibleScrollUpButton, setVisibleScrollUpButton] = useState(false);
+  const [isScrollTop, setIsScrollTop] = useState(true);
 
   const fetchIssues = async (isRefresh?: boolean) => {
     if (filter.repos.length === 0) {
@@ -125,6 +126,12 @@ const IssuesScreen = ({navigation}: Props) => {
         }
         data={data}
         onScroll={({nativeEvent}) => {
+          if (nativeEvent.contentOffset.y < 10) {
+            setIsScrollTop(true);
+          } else {
+            setIsScrollTop(false);
+          }
+
           if (nativeEvent.contentOffset.y > height) {
             if (!visibleScrollUpButton) {
               setVisibleScrollUpButton(true);
@@ -158,7 +165,7 @@ const IssuesScreen = ({navigation}: Props) => {
 
   return (
     <View style={styles.container}>
-      <IssueFilter />
+      <IssueFilter visibleShadow={!isScrollTop} />
       {container}
       {visibleScrollUpButton && (
         <FloatingButton
@@ -166,7 +173,7 @@ const IssuesScreen = ({navigation}: Props) => {
           backgroundColor={colors.primary}
           opacity={0.7}
           onPress={() => {
-            listRef.current?.scrollToIndex({index: 0});
+            listRef.current?.scrollToOffset({offset: 0});
           }}
         />
       )}
@@ -179,6 +186,7 @@ export default IssuesScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    overflow: 'hidden',
   },
   center: {
     justifyContent: 'center',
