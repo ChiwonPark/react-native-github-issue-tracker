@@ -1,7 +1,7 @@
 /**
+ * github에서 정의해둔 프로그래밍 언어 색상표.
  * language: https://github.com/quickutils/language-colors/blob/master/language-colors.js
  */
-
 const language: {[key: string]: string} = {
   onec_enterprise: '#814CCC',
   abap: '#E8274B',
@@ -334,6 +334,9 @@ const language: {[key: string]: string} = {
   wisp: '#7582D1',
 };
 
+/**
+ * 깃허브에서 사용중인 색상
+ */
 const github = {
   issue_closed: '#a371f7',
   issue_opend: '#3fb950',

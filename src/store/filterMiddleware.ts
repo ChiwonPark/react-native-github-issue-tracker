@@ -12,7 +12,7 @@ export const filterMiddleware: Middleware<{}, any> =
       action.type === removeRepository.type
     ) {
       storeApi.dispatch(
-        setFilter({repoNames: state.repositories.map((e: any) => e.full_name)}),
+        setFilter({repos: state.repositories.map((e: any) => e.full_name)}),
       );
     }
     return result;

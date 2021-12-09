@@ -22,10 +22,13 @@ const SearchListItem = ({data, active, onPress}: SearchListItemProps) => {
   return (
     <TouchableWithoutFeedback onPress={() => onPress(data)}>
       <View style={[styles.container, active && styles.active]}>
+        {/* 프로필 이미지 */}
         <Image style={styles.avatar} source={{uri: data.owner.avatar_url}} />
         <View style={styles.info}>
+          {/* 저장소 이름 */}
           <Text style={styles.ownerName}>{data.owner.login}</Text>
           <Text style={styles.repoName}>{data.name}</Text>
+
           <View style={styles.subInfo}>
             {/* 스타 */}
             <Icon
@@ -37,7 +40,8 @@ const SearchListItem = ({data, active, onPress}: SearchListItemProps) => {
             <Text style={styles.subInfoText}>
               {data.stargazers_count.toLocaleString()}
             </Text>
-            {/* 언어 */}
+
+            {/* 개발 언어 */}
             {data.language && (
               <>
                 <Dot
@@ -50,13 +54,14 @@ const SearchListItem = ({data, active, onPress}: SearchListItemProps) => {
             )}
           </View>
         </View>
+        {/* 추가/삭제 상태표시 아이콘 */}
         <Icon name={active ? 'minus' : 'plus'} size={20} color="#000" />
       </View>
     </TouchableWithoutFeedback>
   );
 };
 
-export default SearchListItem;
+export default React.memo(SearchListItem);
 
 const styles = StyleSheet.create({
   container: {

@@ -2,16 +2,12 @@ import React, {useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {Icon, TextInput} from './shared';
 
-interface SearchBarProps {
+type SearchBarProps = {
   onSearch: (keyword: string) => void;
-}
+};
 
 const SearchBar = ({onSearch}: SearchBarProps) => {
   const [keyword, setKeyword] = useState('');
-
-  const handleSearch = () => {
-    onSearch && onSearch(keyword);
-  };
 
   return (
     <View style={styles.container}>
@@ -22,7 +18,7 @@ const SearchBar = ({onSearch}: SearchBarProps) => {
         autoFocus
         placeholder={'저장소 이름을 입력하세요.'}
         onChangeText={setKeyword}
-        onEndEditing={handleSearch}
+        onEndEditing={() => onSearch(keyword)}
         returnKeyType="search"
       />
     </View>

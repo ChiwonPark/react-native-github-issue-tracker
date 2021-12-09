@@ -1,5 +1,5 @@
 export type FilterType = {
-  repoNames: string[];
+  repos: string[];
   issueState: 'closed' | 'open' | 'all';
   sort: 'newest' | 'oldest' | 'updated';
 };

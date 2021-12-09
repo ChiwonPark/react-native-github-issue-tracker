@@ -27,6 +27,8 @@ export default {
     repos: string[];
     page: number;
     issueState: 'all' | 'open' | 'closed';
+    sort: 'created' | 'updated';
+    order: 'asc' | 'desc';
   }) =>
     apiClient
       .get<PaginationResponse<Issue>>('/search/issues', {
@@ -35,10 +37,13 @@ export default {
             query.issueState !== 'all' ? `state:${query.issueState}` : ''
           } ${query.repos.map(e => 'repo:' + e).join(' ')}`,
           page: query.page,
+          sort: query.sort,
+          order: query.order,
         },
       })
       .then(response => {
         const {lastPage} = linkParser(response.headers.link || '');
+        console.log(`${query.page} to ${lastPage}`);
         return {
           ...response.data,
           isLastPage: !lastPage,

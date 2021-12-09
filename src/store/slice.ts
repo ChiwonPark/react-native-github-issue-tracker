@@ -12,9 +12,8 @@ const initialState: RootState = {
   repositories: [],
   filter: {
     issueState: 'all',
-    repoNames: [],
-    sort: 'created',
-    order: 'desc',
+    repos: [],
+    sort: 'newest',
   },
 };
 

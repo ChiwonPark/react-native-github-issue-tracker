@@ -30,12 +30,11 @@ export default function RepositoriesScreen({navigation}: Props) {
       return;
     }
 
-    const promises = registeredRepos.map(repo =>
-      api.getRepositoryById(repo.id),
-    );
-
     setIsLoading(true);
     try {
+      const promises = registeredRepos.map(repo =>
+        api.getRepositoryById(repo.id),
+      );
       const result = await Promise.all(promises);
       setRepositories(result);
     } catch (error) {
@@ -49,6 +48,7 @@ export default function RepositoriesScreen({navigation}: Props) {
     }
   };
 
+  //저장소 등록/삭제시 새로고침
   useEffect(() => {
     fetchRepositories();
   }, [registeredRepos]);

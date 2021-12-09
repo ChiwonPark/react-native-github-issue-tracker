@@ -1,4 +1,6 @@
 //https://stackoverflow.com/questions/12043187/how-to-check-if-hex-color-is-too-black
+
+// hex 색상에서 휘도(밝기)를 얻습니다.
 export const getBrightness = (hex: string) => {
   const c = hex.substring(1); // strip #
   const rgb = parseInt(c, 16); // convert rrggbb to decimal

@@ -1,34 +1,26 @@
-import {
-  BottomTabScreenProps,
-  useBottomTabBarHeight,
-} from '@react-navigation/bottom-tabs';
+import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {CompositeScreenProps} from '@react-navigation/core';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
+  ActivityIndicator,
   FlatList,
+  RefreshControl,
   StyleSheet,
   View,
-  Linking,
-  RefreshControl,
-  ActivityIndicator,
-  Alert,
 } from 'react-native';
-import {Button, Chip, Spacer, Text} from '../components/shared';
+import Toast from 'react-native-toast-message';
 import {useSelector} from 'react-redux';
 import api from '../api';
 import {Issue} from '../api/types';
+import IssueFilter from '../components/IssueFilter';
 import IssueListItem from '../components/IssueListItem';
+import {Button, Spacer, Text} from '../components/shared';
 import {
   HomeTabParamList,
   RootStackParamList,
 } from '../navigators/RootNavigator';
 import {RootState} from '../store';
-import Toast from 'react-native-toast-message';
-import IssueStateFilter from '../components/IssueStateFilter';
-import RepositoryFilter from '../components/RepositoryFilter';
-import colors from '../lib/colors';
-import IssueFilter from '../components/IssueFilter';
 
 type Props = CompositeScreenProps<
   BottomTabScreenProps<HomeTabParamList, 'Issues'>,
@@ -45,16 +37,15 @@ const IssuesScreen = ({navigation}: Props) => {
   const [currentPageNum, setCurrentPageNum] = useState(1);
   const [isLastPage, setIsLastPage] = useState(false);
 
-  const [visibleIssueStateFilter, setVisibleIssueStateFilter] = useState(false);
-  const [visibleRepositoryFilter, setVisibleRepositoryFilter] = useState(false);
-
   const fetchIssues = async (isRefresh?: boolean) => {
     isRefresh ? setIsRefreshing(true) : setIsLoading(true);
     try {
       const data = await api.getIssues({
-        issueState: filter.issueState,
-        repos: filter.repoNames,
         page: 1,
+        issueState: filter.issueState,
+        repos: filter.repos,
+        sort: filter.sort === 'updated' ? 'updated' : 'created',
+        order: filter.sort === 'oldest' ? 'asc' : 'desc',
       });
       setData(data.items);
       setIsError(false);
@@ -79,7 +70,9 @@ const IssuesScreen = ({navigation}: Props) => {
       const data = await api.getIssues({
         page: currentPageNum + 1,
         issueState: filter.issueState,
-        repos: filter.repoNames,
+        repos: filter.repos,
+        sort: filter.sort === 'updated' ? 'updated' : 'created',
+        order: filter.sort === 'oldest' ? 'asc' : 'desc',
       });
       setData(prev => [...prev, ...data.items]);
       setCurrentPageNum(prev => prev + 1);

@@ -8,10 +8,12 @@ import {
 } from '@react-navigation/native-stack';
 import * as React from 'react';
 import {TouchableOpacity, View} from 'react-native';
+import {useSelector} from 'react-redux';
 import {Icon, IconType, Spacer} from '../components/shared';
 import IssuesScreen from '../screens/IssuesScreen';
 import RepositoriesScreen from '../screens/RepositoriesScreen';
 import SearchScreen from '../screens/SearchScreen';
+import {RootState} from '../store';
 
 export type RootStackParamList = {
   Home: HomeTabParamList;
@@ -29,8 +31,10 @@ const HomeTab = createBottomTabNavigator();
 type HomeTabNavigatorProps = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 function HomeTabNavigator({navigation}: HomeTabNavigatorProps) {
+  const repositories = useSelector((state: RootState) => state.repositories);
   return (
     <HomeTab.Navigator
+      initialRouteName={repositories.length === 0 ? 'Repositories' : 'Issues'}
       screenOptions={({route}) => ({
         tabBarIcon: ({color, size}) => {
           let iconName: IconType;

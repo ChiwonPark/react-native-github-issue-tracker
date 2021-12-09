@@ -1,5 +1,5 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import api from '../api';
@@ -23,6 +23,7 @@ const SearchScreen = (props: Props) => {
     if (!keyword) {
       return;
     }
+
     try {
       const data = await api.getRepositoriesByName(keyword);
       setSearchResult(data.items);
@@ -34,9 +35,10 @@ const SearchScreen = (props: Props) => {
     }
   };
 
-  const handleItemPress = (repo: Repository) => {
+  // 리스트 렌더링 최적화
+  const handleItemPress = useCallback((repo: Repository) => {
     dispatch(toggleRepository(repo));
-  };
+  }, []);
 
   return (
     <View style={styles.container}>

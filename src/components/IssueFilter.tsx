@@ -15,12 +15,12 @@ type IssueFilterProps = {};
 const IssueFilter = (props: IssueFilterProps) => {
   const dispatch = useDispatch();
   const {repositories, filter} = useSelector((state: RootState) => state);
-  const {issueState, repoNames, sort} = filter;
+  const {issueState, repos, sort} = filter;
   const [pickerId, setPickerId] = useState<
     'issueState' | 'repo' | 'sort' | null
   >(null);
 
-  const [selectedRepos, setSelectedRepos] = useState(repoNames);
+  const [selectedRepos, setSelectedRepos] = useState(repos);
 
   const issueChipColor = useMemo(() => {
     return {
@@ -31,7 +31,7 @@ const IssueFilter = (props: IssueFilterProps) => {
   }, [issueState]);
 
   const repoChipColor =
-    repositories.length === repoNames.length ? 'grey' : 'purple';
+    repositories.length === repos.length ? 'grey' : 'purple';
 
   const sortChipColor = sort === 'newest' ? 'grey' : 'orange';
 
@@ -54,8 +54,8 @@ const IssueFilter = (props: IssueFilterProps) => {
   };
 
   useEffect(() => {
-    setSelectedRepos(repoNames);
-  }, [pickerId, repoNames]);
+    setSelectedRepos(repos);
+  }, [pickerId, repos]);
 
   const onSelectRepo = (value: string) => {
     if (selectedRepos.includes(value)) {
@@ -68,7 +68,7 @@ const IssueFilter = (props: IssueFilterProps) => {
   const applyRepoFilter = () => {
     dispatch(
       setFilter({
-        repoNames: selectedRepos,
+        repos: selectedRepos,
       }),
     );
     setPickerId(null);
@@ -91,7 +91,7 @@ const IssueFilter = (props: IssueFilterProps) => {
       <ModalBase
         visible={pickerId === 'issueState'}
         onRequestClose={() => setPickerId(null)}
-        onBackdropPress={() => setPickerId(null)}>
+        onOutsidePress={() => setPickerId(null)}>
         <View style={styles.popupContainer}>
           <View style={styles.popupTitle}>
             <Text fontSize={15} fontWeight="900">
@@ -149,7 +149,7 @@ const IssueFilter = (props: IssueFilterProps) => {
       <ModalBase
         visible={pickerId === 'repo'}
         onRequestClose={() => setPickerId(null)}
-        onBackdropPress={() => setPickerId(null)}>
+        onOutsidePress={() => setPickerId(null)}>
         <View style={styles.popupContainer}>
           <View style={styles.popupTitle}>
             <Text fontSize={15} fontWeight="900">
@@ -198,7 +198,7 @@ const IssueFilter = (props: IssueFilterProps) => {
       <ModalBase
         visible={pickerId === 'sort'}
         onRequestClose={() => setPickerId(null)}
-        onBackdropPress={() => setPickerId(null)}>
+        onOutsidePress={() => setPickerId(null)}>
         <View style={styles.popupContainer}>
           <View style={styles.popupTitle}>
             <Text fontSize={15} fontWeight="900">

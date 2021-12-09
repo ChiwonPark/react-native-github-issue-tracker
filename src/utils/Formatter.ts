@@ -1,6 +1,6 @@
 export default {
   /**
-   * 첫글자를 대문자로 변환
+   * 첫글자를 대문자로 변환합니다.
    */
   capitalize: (str: string) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
