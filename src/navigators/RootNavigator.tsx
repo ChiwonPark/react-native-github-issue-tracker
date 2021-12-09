@@ -68,11 +68,12 @@ function HomeTabNavigator({navigation}: HomeTabNavigatorProps) {
         options={{
           title: '저장소',
           headerRight: props => (
-            <View style={{flexDirection: 'row'}}>
-              <TouchableOpacity onPress={() => navigation.navigate('Search')}>
+            <View style={{flexDirection: 'row', paddingRight: 16}}>
+              <TouchableOpacity
+                hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}
+                onPress={() => navigation.navigate('Search')}>
                 <Icon name="search" size={20} />
               </TouchableOpacity>
-              <Spacer width={8} />
             </View>
           ),
         }}
