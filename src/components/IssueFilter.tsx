@@ -5,7 +5,7 @@ import colors from '../lib/colors';
 import {RootState} from '../store';
 import {setFilter} from '../store/slice';
 import Formatter from '../utils/Formatter';
-import {Button, Chip, Icon, Text} from './shared';
+import {Button, Chip, Icon, Spacer, Text} from './shared';
 import ModalBase from './shared/ModalBase';
 
 type IssueFilterProps = {};
@@ -74,6 +74,8 @@ const IssueFilter = (props: IssueFilterProps) => {
 
   return (
     <View style={styles.container}>
+      <Icon name="filter" size={16} />
+      <Spacer width={4} />
       {/* 이슈 상태 필터 */}
       <Chip
         style={styles.chip}

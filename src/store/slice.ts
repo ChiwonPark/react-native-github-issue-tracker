@@ -11,7 +11,7 @@ type RootState = {
 const initialState: RootState = {
   repositories: [],
   filter: {
-    issueState: 'all',
+    issueState: 'open',
     repos: [],
     sort: 'newest',
   },
@@ -26,7 +26,7 @@ const slice = createSlice({
     },
     resetFilter: state => {
       state.filter = {
-        issueState: 'all',
+        issueState: 'open',
         repos: state.repositories.map(e => e.full_name),
         sort: 'newest',
       };
