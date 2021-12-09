@@ -17,7 +17,9 @@ export const store = configureStore({
   reducer: persistedReducer,
   middleware: getDefaultMiddleware => {
     const reduxDebugger = __DEV__ && require('redux-flipper').default();
-    return getDefaultMiddleware()
+    return getDefaultMiddleware({
+      serializableCheck: false,
+    })
       .concat(filterMiddleware)
       .concat(reduxDebugger);
   },
