@@ -5,6 +5,7 @@ import colors from '../lib/colors';
 import {RootState} from '../store';
 import {setFilter} from '../store/slice';
 import Formatter from '../utils/Formatter';
+import Picker from './Picker';
 import PickerItem from './PickerItem';
 import {Button, Chip, Icon, Spacer, Text} from './shared';
 import ModalBase from './shared/ModalBase';
@@ -80,6 +81,7 @@ const IssueFilter = ({visibleShadow}: IssueFilterProps) => {
       <Icon name="filter" size={16} />
       <Spacer width={4} />
       {/* 이슈 상태 필터 */}
+
       <Chip
         style={styles.chip}
         labelStyle={styles.chipLabel}
@@ -91,33 +93,21 @@ const IssueFilter = ({visibleShadow}: IssueFilterProps) => {
         rightIconColor="grey"
         onPress={() => setPickerId('issueState')}
       />
-      <ModalBase
+
+      <Picker
         visible={pickerId === 'issueState'}
+        title="이슈 상태 필터"
+        value={issueState}
+        items={[
+          {label: 'All', value: 'all'},
+          {label: 'Open', value: 'open'},
+          {label: 'Closed', value: 'closed'},
+        ]}
+        onSelect={(value: string) =>
+          onSelectIssueState(value as 'all' | 'open' | 'closed')
+        }
         onRequestClose={() => setPickerId(null)}
-        onOutsidePress={() => setPickerId(null)}>
-        <View style={styles.popupContainer}>
-          <View style={styles.popupTitle}>
-            <Text fontSize={15} fontWeight="900">
-              이슈 상태 필터
-            </Text>
-          </View>
-          <PickerItem
-            label={'All'}
-            selected={issueState === 'all'}
-            onPress={() => onSelectIssueState('all')}
-          />
-          <PickerItem
-            label={'Open'}
-            selected={issueState === 'open'}
-            onPress={() => onSelectIssueState('open')}
-          />
-          <PickerItem
-            label={'Closed'}
-            selected={issueState === 'closed'}
-            onPress={() => onSelectIssueState('closed')}
-          />
-        </View>
-      </ModalBase>
+      />
 
       {/* 저장소 필터 */}
       <Chip
@@ -134,8 +124,7 @@ const IssueFilter = ({visibleShadow}: IssueFilterProps) => {
 
       <ModalBase
         visible={pickerId === 'repo'}
-        onRequestClose={() => setPickerId(null)}
-        onOutsidePress={() => setPickerId(null)}>
+        onRequestClose={() => setPickerId(null)}>
         <View style={styles.popupContainer}>
           <View style={styles.popupTitle}>
             <Text fontSize={15} fontWeight="900">
@@ -173,34 +162,21 @@ const IssueFilter = ({visibleShadow}: IssueFilterProps) => {
         rightIconColor="grey"
         onPress={() => setPickerId('sort')}
       />
-      <ModalBase
-        visible={pickerId === 'sort'}
-        onRequestClose={() => setPickerId(null)}
-        onOutsidePress={() => setPickerId(null)}>
-        <View style={styles.popupContainer}>
-          <View style={styles.popupTitle}>
-            <Text fontSize={15} fontWeight="900">
-              정렬
-            </Text>
-          </View>
-          <PickerItem
-            label="Newest"
-            selected={sort === 'newest'}
-            onPress={() => onSelectSort('newest')}
-          />
-          <PickerItem
-            label="Oldest"
-            selected={sort === 'oldest'}
-            onPress={() => onSelectSort('oldest')}
-          />
 
-          <PickerItem
-            label="Recently Updated"
-            selected={sort === 'updated'}
-            onPress={() => onSelectSort('updated')}
-          />
-        </View>
-      </ModalBase>
+      <Picker
+        visible={pickerId === 'sort'}
+        title="정렬"
+        value={sort}
+        items={[
+          {label: 'Newest', value: 'newest'},
+          {label: 'Oldest', value: 'oldest'},
+          {label: 'Recently Updated', value: 'updated'},
+        ]}
+        onSelect={(value: string) =>
+          onSelectSort(value as 'newest' | 'oldest' | 'updated')
+        }
+        onRequestClose={() => setPickerId(null)}
+      />
     </View>
   );
 };
