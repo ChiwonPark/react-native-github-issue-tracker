@@ -5,6 +5,7 @@ import colors from '../lib/colors';
 import {RootState} from '../store';
 import {setFilter} from '../store/slice';
 import Formatter from '../utils/Formatter';
+import PickerItem from './PickerItem';
 import {Button, Chip, Icon, Spacer, Text} from './shared';
 import ModalBase from './shared/ModalBase';
 
@@ -100,38 +101,21 @@ const IssueFilter = ({visibleShadow}: IssueFilterProps) => {
               이슈 상태 필터
             </Text>
           </View>
-          <TouchableOpacity
-            style={styles.checkItem}
-            onPress={() => onSelectIssueState('all')}>
-            <Text fontSize={14} fontWeight="500">
-              All
-            </Text>
-            {issueState === 'all' && (
-              <Icon name="check" size={16} color={'#339af0'} />
-            )}
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.checkItem}
-            onPress={() => onSelectIssueState('open')}>
-            <Text fontSize={14} fontWeight="500">
-              Open
-            </Text>
-            {issueState === 'open' && (
-              <Icon name="check" size={16} color={'#339af0'} />
-            )}
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.checkItem}
-            onPress={() => onSelectIssueState('closed')}>
-            <Text fontSize={14} fontWeight="500">
-              Closed
-            </Text>
-            {issueState === 'closed' && (
-              <Icon name="check" size={16} color={'#339af0'} />
-            )}
-          </TouchableOpacity>
+          <PickerItem
+            label={'All'}
+            selected={issueState === 'all'}
+            onPress={() => onSelectIssueState('all')}
+          />
+          <PickerItem
+            label={'Open'}
+            selected={issueState === 'open'}
+            onPress={() => onSelectIssueState('open')}
+          />
+          <PickerItem
+            label={'Closed'}
+            selected={issueState === 'closed'}
+            onPress={() => onSelectIssueState('closed')}
+          />
         </View>
       </ModalBase>
 
@@ -159,26 +143,18 @@ const IssueFilter = ({visibleShadow}: IssueFilterProps) => {
             </Text>
           </View>
           {repositories.map(e => (
-            <TouchableOpacity
+            <PickerItem
               key={`${e.id}`}
-              style={styles.checkItem}
-              onPress={() => onSelectRepo(e.full_name)}>
-              <Text
-                style={styles.checkItemLabel}
-                fontSize={14}
-                fontWeight="500">
-                {e.full_name}
-              </Text>
-              {selectedRepos.includes(e.full_name) && (
-                <Icon name="check" size={16} color={'#339af0'} />
-              )}
-            </TouchableOpacity>
+              label={e.full_name}
+              selected={selectedRepos.includes(e.full_name)}
+              onPress={() => onSelectRepo(e.full_name)}
+            />
           ))}
           <View style={styles.popupFooter}>
             <Button
-              disabled={selectedRepos.length === 0}
               label="적용"
               color={colors.primary}
+              disabled={selectedRepos.length === 0}
               onPress={applyRepoFilter}
             />
           </View>
@@ -207,38 +183,22 @@ const IssueFilter = ({visibleShadow}: IssueFilterProps) => {
               정렬
             </Text>
           </View>
-          <TouchableOpacity
-            style={styles.checkItem}
-            onPress={() => onSelectSort('newest')}>
-            <Text fontSize={14} fontWeight="500">
-              Newest
-            </Text>
-            {sort === 'newest' && (
-              <Icon name="check" size={16} color={'#339af0'} />
-            )}
-          </TouchableOpacity>
+          <PickerItem
+            label="Newest"
+            selected={sort === 'newest'}
+            onPress={() => onSelectSort('newest')}
+          />
+          <PickerItem
+            label="Oldest"
+            selected={sort === 'oldest'}
+            onPress={() => onSelectSort('oldest')}
+          />
 
-          <TouchableOpacity
-            style={styles.checkItem}
-            onPress={() => onSelectSort('oldest')}>
-            <Text fontSize={14} fontWeight="500">
-              Oldest
-            </Text>
-            {sort === 'oldest' && (
-              <Icon name="check" size={16} color={'#339af0'} />
-            )}
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.checkItem}
-            onPress={() => onSelectSort('updated')}>
-            <Text fontSize={14} fontWeight="500">
-              Recently Updated
-            </Text>
-            {sort === 'updated' && (
-              <Icon name="check" size={16} color={'#339af0'} />
-            )}
-          </TouchableOpacity>
+          <PickerItem
+            label="Recently Updated"
+            selected={sort === 'updated'}
+            onPress={() => onSelectSort('updated')}
+          />
         </View>
       </ModalBase>
     </View>
