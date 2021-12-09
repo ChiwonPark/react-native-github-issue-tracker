@@ -19,6 +19,7 @@ type ButtonProps = {
   large?: boolean;
   block?: boolean;
   color?: string;
+  disabled?: boolean;
   onPress?: () => void;
 } & Omit<TouchableOpacityProps, 'children'>;
 
@@ -27,11 +28,16 @@ const Button = ({
   labelStyle: labelStyleProp,
   label,
   icon,
+  disabled,
   color = 'gery',
   onPress = () => {},
 }: ButtonProps) => {
   const buttonStyle: ViewStyle = {
-    backgroundColor: color,
+    backgroundColor: disabled ? '#ddd' : color,
+  };
+
+  const labelStyle: TextStyle = {
+    color: disabled ? '#999' : '#fff',
   };
 
   return (
@@ -42,7 +48,9 @@ const Button = ({
         <Icon style={styles.icon} name={icon} size={16} color="white" />
       )}
       {!!label && (
-        <Text style={[styles.labelBase, labelStyleProp]}>{label}</Text>
+        <Text style={[styles.labelBase, labelStyle, labelStyleProp]}>
+          {label}
+        </Text>
       )}
     </TouchableOpacity>
   );

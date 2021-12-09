@@ -342,4 +342,5 @@ const github = {
 export default {
   language,
   github,
+  primary: '#5c7cfa',
 };

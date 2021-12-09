@@ -4,13 +4,20 @@ import {
   StyleSheet,
   TouchableOpacity,
   TouchableWithoutFeedback,
+  ViewStyle,
+  TextStyle,
 } from 'react-native';
 import {Icon, IconType, Text} from '.';
 
 type ChipProps = {
+  style?: ViewStyle;
   icon?: IconType;
   iconColor?: string;
+  rightIcon?: IconType;
+  rightIconColor?: string;
+  rightIconSize?: number;
   label: string;
+  labelStyle?: TextStyle;
   color?: string;
   small?: boolean;
   borderColor?: string;
@@ -22,13 +29,19 @@ type ChipProps = {
 };
 
 const Chip = ({
+  style: styleProp,
   icon,
   iconColor,
+  rightIcon,
+  rightIconColor,
+  rightIconSize,
   label,
+  labelStyle: labelStyleProp,
   color,
   backgroundColor = '#fff',
   borderColor = backgroundColor,
   activeColor,
+  onPress,
   onClose,
 }: ChipProps) => {
   const style = {
@@ -36,17 +49,27 @@ const Chip = ({
     borderColor,
   };
   return (
-    <View style={[styles.container, style]}>
+    <TouchableOpacity
+      style={[styles.container, style, styleProp]}
+      onPress={onPress}>
       {icon && <Icon style={styles.icon} name={icon} size={10} color={color} />}
-      <Text color={color} fontSize={10}>
+      <Text style={labelStyleProp} color={color} fontSize={10}>
         {label}
       </Text>
+      {rightIcon && (
+        <Icon
+          style={styles.icon}
+          name={rightIcon}
+          size={rightIconSize}
+          color={rightIconColor}
+        />
+      )}
       {onClose && (
         <TouchableWithoutFeedback onPress={onClose}>
           <Icon name="x-circle-fill" size={12} color="grey" />
         </TouchableWithoutFeedback>
       )}
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -66,6 +89,9 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginRight: 2,
+  },
+  rightIcon: {
+    marginLeft: 2,
   },
   closeButton: {
     width: 16,

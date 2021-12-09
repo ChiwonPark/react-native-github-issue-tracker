@@ -1,5 +1,11 @@
 export default {
   /**
+   * 첫글자를 대문자로 변환
+   */
+  capitalize: (str: string) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  },
+  /**
    * 두 Date의 시간 차이를 매우 짧은 문자열로 반환합니다.
    * 양수를 얻으려면 date1이 date2보다 최근시간이어야 합니다.
    */

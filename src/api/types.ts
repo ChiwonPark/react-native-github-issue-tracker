@@ -1,6 +1,7 @@
 export type FilterType = {
   repoNames: string[];
-  issueState?: 'closed' | 'open';
+  issueState: 'closed' | 'open' | 'all';
+  sort: 'newest' | 'oldest' | 'updated';
 };
 
 export type PaginationResponse<T> = {

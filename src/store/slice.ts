@@ -1,7 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {FilterType, Repository} from '../api/types';
-import {AnyAction} from 'redux';
-import {ThunkAction} from 'redux-thunk';
 import Toast from 'react-native-toast-message';
 import {AppThunk} from '.';
 
@@ -13,8 +11,10 @@ type RootState = {
 const initialState: RootState = {
   repositories: [],
   filter: {
-    issueState: undefined,
+    issueState: 'all',
     repoNames: [],
+    sort: 'created',
+    order: 'desc',
   },
 };
 

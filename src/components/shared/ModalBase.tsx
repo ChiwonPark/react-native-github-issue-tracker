@@ -7,12 +7,18 @@ import {
   View,
 } from 'react-native';
 
-type ModalBaseProps = ModalProps;
+type ModalBaseProps = {
+  onBackdropPress?: () => void;
+} & ModalProps;
 
-const ModalBase = (props: ModalBaseProps) => {
+const ModalBase = ({onBackdropPress, ...props}: ModalBaseProps) => {
+  const handleBackdropPress = () => {
+    onBackdropPress && onBackdropPress();
+  };
+
   return (
     <Modal transparent={true} animationType={'fade'} {...props}>
-      <TouchableWithoutFeedback>
+      <TouchableWithoutFeedback onPress={handleBackdropPress}>
         <View style={styles.overlay}>
           <TouchableWithoutFeedback>
             <View style={styles.container}>{props.children}</View>

@@ -28,6 +28,7 @@ import Toast from 'react-native-toast-message';
 import IssueStateFilter from '../components/IssueStateFilter';
 import RepositoryFilter from '../components/RepositoryFilter';
 import colors from '../lib/colors';
+import IssueFilter from '../components/IssueFilter';
 
 type Props = CompositeScreenProps<
   BottomTabScreenProps<HomeTabParamList, 'Issues'>,
@@ -171,25 +172,7 @@ const IssuesScreen = ({navigation}: Props) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.filterBlock}>
-        <Button
-          label={`상태: ${filter.issueState || 'all'}`}
-          color={
-            filter.issueState === 'open'
-              ? colors.github.issue_opend
-              : filter.issueState === 'closed'
-              ? colors.github.issue_opend
-              : '#000'
-          }
-          onPress={() => setVisibleIssueStateFilter(true)}
-        />
-        <IssueStateFilter
-          visible={visibleIssueStateFilter}
-          onRequestClose={() => {
-            setVisibleIssueStateFilter(false);
-          }}
-        />
-      </View>
+      <IssueFilter />
       {container}
     </View>
   );

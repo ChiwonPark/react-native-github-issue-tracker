@@ -22,23 +22,17 @@ export default {
     apiClient
       .get<Repository>(`/repositories/${repoId}`)
       .then(response => response.data),
-  getIssues: (
-    query: {
-      type?: 'issue';
-      repos: string[];
-      page: number;
-      issueState?: 'open' | 'closed';
-    } = {
-      type: 'issue',
-      repos: [],
-      page: 1,
-    },
-  ) =>
+  getIssues: (query: {
+    type?: 'issue';
+    repos: string[];
+    page: number;
+    issueState: 'all' | 'open' | 'closed';
+  }) =>
     apiClient
       .get<PaginationResponse<Issue>>('/search/issues', {
         params: {
           q: `is:issue ${
-            query.issueState ? `is:${query.issueState}` : ''
+            query.issueState !== 'all' ? `state:${query.issueState}` : ''
           } ${query.repos.map(e => 'repo:' + e).join(' ')}`,
           page: query.page,
         },
