@@ -1,12 +1,13 @@
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {CompositeScreenProps} from '@react-navigation/core';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   ActivityIndicator,
   FlatList,
   RefreshControl,
   StyleSheet,
+  useWindowDimensions,
   View,
 } from 'react-native';
 import Toast from 'react-native-toast-message';
@@ -16,6 +17,8 @@ import {Issue} from '../api/types';
 import IssueFilter from '../components/IssueFilter';
 import IssueListItem from '../components/IssueListItem';
 import {Spacer, Text} from '../components/shared';
+import FloatingButton from '../components/shared/FloatingButton';
+import colors from '../lib/colors';
 import {
   HomeTabParamList,
   RootStackParamList,
@@ -28,6 +31,8 @@ type Props = CompositeScreenProps<
 >;
 
 const IssuesScreen = ({navigation}: Props) => {
+  const {height} = useWindowDimensions();
+  const listRef = useRef<FlatList>(null);
   const {filter} = useSelector((state: RootState) => state);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -37,6 +42,8 @@ const IssuesScreen = ({navigation}: Props) => {
   const [data, setData] = useState<Issue[]>([]);
   const [currentPageNum, setCurrentPageNum] = useState(1);
   const [isLastPage, setIsLastPage] = useState(false);
+
+  const [visibleScrollUpButton, setVisibleScrollUpButton] = useState(false);
 
   const fetchIssues = async (isRefresh?: boolean) => {
     if (filter.repos.length === 0) {
@@ -108,6 +115,7 @@ const IssuesScreen = ({navigation}: Props) => {
   } else {
     container = (
       <FlatList
+        ref={listRef}
         style={{flex: 1}}
         refreshControl={
           <RefreshControl
@@ -116,6 +124,17 @@ const IssuesScreen = ({navigation}: Props) => {
           />
         }
         data={data}
+        onScroll={({nativeEvent}) => {
+          if (nativeEvent.contentOffset.y > height) {
+            if (!visibleScrollUpButton) {
+              setVisibleScrollUpButton(true);
+            }
+          } else {
+            if (visibleScrollUpButton) {
+              setVisibleScrollUpButton(false);
+            }
+          }
+        }}
         renderItem={({item}) => <IssueListItem data={item} />}
         ListHeaderComponent={() => <Spacer height={12} />}
         ListEmptyComponent={() => (
@@ -141,6 +160,16 @@ const IssuesScreen = ({navigation}: Props) => {
     <View style={styles.container}>
       <IssueFilter />
       {container}
+      {visibleScrollUpButton && (
+        <FloatingButton
+          icon="arrow-up"
+          backgroundColor={colors.primary}
+          opacity={0.7}
+          onPress={() => {
+            listRef.current?.scrollToIndex({index: 0});
+          }}
+        />
+      )}
     </View>
   );
 };

@@ -17,6 +17,7 @@ type IssueListItemProps = {
 };
 
 const IssueListItem = ({data}: IssueListItemProps) => {
+  console.log('render', data.number);
   const onPress = () => {
     Linking.openURL(data.html_url);
   };
