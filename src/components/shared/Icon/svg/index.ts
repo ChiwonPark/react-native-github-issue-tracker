@@ -13,6 +13,10 @@ export default {
   plus: require('./plus.svg'),
   minus: require('./minus.svg'),
   check: require('./check.svg'),
+  filter: require('./filter.svg'),
   'star-fill': require('./star-fill.svg'),
   'mark-github': require('./mark-github.svg'),
+  'chevron-down': require('./chevron-down.svg'),
+  'triangle-down': require('./triangle-down.svg'),
+  'sort-desc': require('./sort-desc.svg'),
 };
