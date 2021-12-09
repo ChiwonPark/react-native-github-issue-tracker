@@ -73,8 +73,7 @@ const IssuesScreen = ({navigation}: Props) => {
   };
 
   const fetchMoreIssues = async () => {
-    if (isLastPage) {
-      console.log('isLastPage');
+    if (isLastPage || isRefreshing || isMoreLoading) {
       return;
     }
 

@@ -1,11 +1,12 @@
 import axios from 'axios';
 import {linkParser} from '../utils';
 import {Issue, PaginationResponse, Repository} from './types';
+import Config from 'react-native-config';
 
 const apiClient = axios.create({
-  baseURL: 'https://api.github.com',
+  baseURL: Config.API_URL,
   headers: {
-    Authorization: 'token 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',
+    Authorization: Config.TOKEN ? `token ${Config.TOKEN}` : '',
   },
 });
 
