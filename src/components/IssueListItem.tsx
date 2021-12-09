@@ -28,7 +28,8 @@ const IssueListItem = ({data}: IssueListItemProps) => {
         <View style={styles.upperBlock}>
           {/* 저장소 이름 */}
           <Text fontSize={12} color="#555">
-            {data.repository_url.split('/').slice(-2).join('/')}
+            {data.repository_url.split('/').slice(-2).join('/')}{' '}
+            {`#${data.number}`}
           </Text>
           <Spacer flex />
           {/* 이슈 생성일 */}
