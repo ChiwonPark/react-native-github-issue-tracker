@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {View, StyleSheet, TouchableOpacity} from 'react-native';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 import {Icon} from '.';
 
 type CheckBoxProps = {

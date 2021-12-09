@@ -15,7 +15,7 @@ import api from '../api';
 import {Issue} from '../api/types';
 import IssueFilter from '../components/IssueFilter';
 import IssueListItem from '../components/IssueListItem';
-import {Button, Spacer, Text} from '../components/shared';
+import {Spacer, Text} from '../components/shared';
 import {
   HomeTabParamList,
   RootStackParamList,
@@ -28,7 +28,8 @@ type Props = CompositeScreenProps<
 >;
 
 const IssuesScreen = ({navigation}: Props) => {
-  const {repositories, filter} = useSelector((state: RootState) => state);
+  const {filter} = useSelector((state: RootState) => state);
+
   const [isLoading, setIsLoading] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isMoreLoading, setIsMoreLoading] = useState(false);
@@ -38,6 +39,10 @@ const IssuesScreen = ({navigation}: Props) => {
   const [isLastPage, setIsLastPage] = useState(false);
 
   const fetchIssues = async (isRefresh?: boolean) => {
+    if (filter.repos.length === 0) {
+      return;
+    }
+
     isRefresh ? setIsRefreshing(true) : setIsLoading(true);
     try {
       const data = await api.getIssues({
@@ -94,46 +99,10 @@ const IssuesScreen = ({navigation}: Props) => {
 
   let container = null;
 
-  if (repositories.length === 0) {
-    container = (
-      <View style={[styles.container, styles.center]}>
-        <Text>먼저 저장소를 등록하세요.</Text>
-        <Spacer height={12} />
-        <Button
-          label="저장소 찾기"
-          icon={'search'}
-          large
-          onPress={() => {
-            navigation.navigate('Repositories');
-            navigation.navigate('Search');
-          }}
-        />
-      </View>
-    );
-  } else if (isLoading) {
+  if (isLoading) {
     container = (
       <View style={[styles.container, styles.center]}>
         <ActivityIndicator size="large" />
-      </View>
-    );
-  } else if (isError) {
-    container = (
-      <View style={[styles.container, styles.center]}>
-        <Text>목록을 불러오지 못했습니다.</Text>
-        <Spacer height={12} />
-        <Button
-          label="다시시도"
-          large
-          onPress={() => {
-            fetchIssues();
-          }}
-        />
-      </View>
-    );
-  } else if (data.length === 0) {
-    container = (
-      <View style={[styles.container, styles.center]}>
-        <Text>이슈가 없습니다.</Text>
       </View>
     );
   } else {
@@ -149,6 +118,11 @@ const IssuesScreen = ({navigation}: Props) => {
         data={data}
         renderItem={({item}) => <IssueListItem data={item} />}
         ListHeaderComponent={() => <Spacer height={12} />}
+        ListEmptyComponent={() => (
+          <View style={[styles.container, styles.center]}>
+            <Text>이슈가 없습니다.</Text>
+          </View>
+        )}
         ListFooterComponent={() => (
           <View style={styles.listFooter}>
             {isMoreLoading ? <ActivityIndicator /> : null}

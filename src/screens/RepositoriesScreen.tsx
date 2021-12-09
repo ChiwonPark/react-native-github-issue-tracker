@@ -1,19 +1,19 @@
+import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
+import {CompositeScreenProps} from '@react-navigation/core';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React, {useEffect, useState} from 'react';
 import {ActivityIndicator, ScrollView, StyleSheet, View} from 'react-native';
-import {Repository} from '../api/types';
+import Toast from 'react-native-toast-message';
 import {useSelector} from 'react-redux';
-import {RootState} from '../store';
 import api from '../api';
+import {Repository} from '../api/types';
 import RepositoryListItem from '../components/RepositoryListItem';
 import {Button, Spacer, Text} from '../components/shared';
 import {
   HomeTabParamList,
   RootStackParamList,
 } from '../navigators/RootNavigator';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {CompositeScreenProps} from '@react-navigation/core';
-import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
-import Toast from 'react-native-toast-message';
+import {RootState} from '../store';
 
 type Props = CompositeScreenProps<
   BottomTabScreenProps<HomeTabParamList, 'Repositories'>,
@@ -59,6 +59,7 @@ export default function RepositoriesScreen({navigation}: Props) {
         <Text>등록된 저장소가 없습니다.</Text>
         <Spacer height={12} />
         <Button
+          primary
           label="저장소 찾기"
           icon={'search'}
           large

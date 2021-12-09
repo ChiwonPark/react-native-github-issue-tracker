@@ -1,12 +1,12 @@
 import * as React from 'react';
 import {
-  View,
-  StyleSheet,
-  Platform,
-  Image,
-  TouchableOpacity,
-  Linking,
   Alert,
+  Image,
+  Linking,
+  Platform,
+  StyleSheet,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import {useDispatch} from 'react-redux';
 import {Repository} from '../api/types';
@@ -26,7 +26,7 @@ const RepositoryListItem = ({data}: RepositoryListItemProps) => {
   };
 
   const handleDelete = () => {
-    Alert.alert('', `선택한 저장소를 목록에서 삭제하시겠습니까?`, [
+    Alert.alert('', `선택한 저장소를 삭제하시겠습니까?`, [
       {
         text: '취소',
       },

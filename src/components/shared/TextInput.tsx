@@ -1,13 +1,13 @@
 import React, {useMemo} from 'react';
 import {
-  TextInput as RNTextInput,
+  StyleProp,
   StyleSheet,
+  TextInput as RNTextInput,
   TextInputProps as RNTextInputProps,
   TextStyle,
-  View,
-  StyleProp,
-  ViewStyle,
   TouchableOpacity,
+  View,
+  ViewStyle,
 } from 'react-native';
 import {Icon} from '.';
 

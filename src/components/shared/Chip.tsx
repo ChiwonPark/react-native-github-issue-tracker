@@ -1,11 +1,10 @@
 import * as React from 'react';
 import {
-  View,
   StyleSheet,
+  TextStyle,
   TouchableOpacity,
   TouchableWithoutFeedback,
   ViewStyle,
-  TextStyle,
 } from 'react-native';
 import {Icon, IconType, Text} from '.';
 

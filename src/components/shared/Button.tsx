@@ -1,18 +1,18 @@
-import React, {useState, useEffect, useCallback, useMemo} from 'react';
+import React from 'react';
 import {
-  Text,
-  View,
-  StyleSheet,
   StyleProp,
-  Button as RNButton,
-  ViewStyle,
-  TouchableOpacityProps,
-  TouchableOpacity,
+  StyleSheet,
+  Text,
   TextStyle,
+  TouchableOpacity,
+  TouchableOpacityProps,
+  ViewStyle,
 } from 'react-native';
 import {Icon, IconType} from '.';
+import colors from '../../lib/colors';
 
 type ButtonProps = {
+  primary?: boolean;
   label: string;
   labelStyle?: StyleProp<TextStyle>;
   icon?: IconType;
@@ -24,6 +24,7 @@ type ButtonProps = {
 } & Omit<TouchableOpacityProps, 'children'>;
 
 const Button = ({
+  primary,
   style: styleProp,
   labelStyle: labelStyleProp,
   label,
@@ -33,7 +34,7 @@ const Button = ({
   onPress = () => {},
 }: ButtonProps) => {
   const buttonStyle: ViewStyle = {
-    backgroundColor: disabled ? '#ddd' : color,
+    backgroundColor: disabled ? '#ddd' : primary ? colors.primary : color,
   };
 
   const labelStyle: TextStyle = {
@@ -43,6 +44,7 @@ const Button = ({
   return (
     <TouchableOpacity
       style={[styles.buttonBase, buttonStyle, styleProp]}
+      disabled={disabled}
       onPress={onPress}>
       {!!icon && (
         <Icon style={styles.icon} name={icon} size={16} color="white" />

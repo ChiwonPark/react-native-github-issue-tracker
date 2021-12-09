@@ -1,14 +1,12 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import {View, StyleSheet, TouchableOpacity} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {FilterType} from '../api/types';
 import colors from '../lib/colors';
 import {RootState} from '../store';
 import {setFilter} from '../store/slice';
 import Formatter from '../utils/Formatter';
-import {Button, Chip, Icon, Spacer, Text} from './shared';
+import {Button, Chip, Icon, Text} from './shared';
 import ModalBase from './shared/ModalBase';
-import Toast from 'react-native-toast-message';
 
 type IssueFilterProps = {};
 
@@ -95,7 +93,7 @@ const IssueFilter = (props: IssueFilterProps) => {
         <View style={styles.popupContainer}>
           <View style={styles.popupTitle}>
             <Text fontSize={15} fontWeight="900">
-              이슈 상태로 필터
+              이슈 상태 필터
             </Text>
           </View>
           <TouchableOpacity
@@ -153,7 +151,7 @@ const IssueFilter = (props: IssueFilterProps) => {
         <View style={styles.popupContainer}>
           <View style={styles.popupTitle}>
             <Text fontSize={15} fontWeight="900">
-              저장소로 필터
+              저장소 필터
             </Text>
           </View>
           {repositories.map(e => (

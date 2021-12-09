@@ -1,8 +1,8 @@
 import * as React from 'react';
 import {
-  StyleSheet,
-  ModalProps,
   Modal,
+  ModalProps,
+  StyleSheet,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';

@@ -1,10 +1,10 @@
 import * as React from 'react';
 import {
-  Text,
-  View,
-  StyleSheet,
-  TouchableWithoutFeedback,
   Image,
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  View,
 } from 'react-native';
 import {Repository} from '../api/types';
 import colors from '../lib/colors';

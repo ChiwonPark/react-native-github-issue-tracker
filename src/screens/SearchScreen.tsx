@@ -1,16 +1,16 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React, {useCallback, useState} from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
+import Toast from 'react-native-toast-message';
 import {useDispatch, useSelector} from 'react-redux';
 import api from '../api';
 import {Repository} from '../api/types';
 import SearchBar from '../components/SearchBar';
 import SearchListItem from '../components/SearchListItem';
+import {Text} from '../components/shared';
 import {RootStackParamList} from '../navigators/RootNavigator';
 import {RootState} from '../store';
 import {toggleRepository} from '../store/slice';
-import Toast from 'react-native-toast-message';
-import {Text} from '../components/shared';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Search'>;
 

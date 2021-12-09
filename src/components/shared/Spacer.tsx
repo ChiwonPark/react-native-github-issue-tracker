@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import {View} from 'react-native';
 
 type SpacerProps = {
   flex?: number | true;

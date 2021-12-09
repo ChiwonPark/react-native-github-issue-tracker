@@ -10,6 +10,7 @@ import * as React from 'react';
 import {TouchableOpacity, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {Icon, IconType, Spacer} from '../components/shared';
+import colors from '../lib/colors';
 import IssuesScreen from '../screens/IssuesScreen';
 import RepositoriesScreen from '../screens/RepositoriesScreen';
 import SearchScreen from '../screens/SearchScreen';
@@ -47,14 +48,19 @@ function HomeTabNavigator({navigation}: HomeTabNavigatorProps) {
 
           return <Icon name={iconName!} size={size} color={color} />;
         },
-        tabBarActiveTintColor: '#748ffc',
+        tabBarActiveTintColor: colors.primary,
         tabBarInactiveTintColor: 'gray',
       })}>
-      <HomeTab.Screen name="Issues" component={IssuesScreen} />
+      <HomeTab.Screen
+        name="Issues"
+        component={IssuesScreen}
+        options={{title: '이슈 모아보기'}}
+      />
       <HomeTab.Screen
         name="Repositories"
         component={RepositoriesScreen}
         options={{
+          title: '저장소',
           headerRight: props => (
             <View style={{flexDirection: 'row'}}>
               <TouchableOpacity onPress={() => navigation.navigate('Search')}>
@@ -78,7 +84,11 @@ function RootNavigator() {
           component={HomeTabNavigator}
           options={{headerShown: false}}
         />
-        <RootStack.Screen name="Search" component={SearchScreen} />
+        <RootStack.Screen
+          name="Search"
+          component={SearchScreen}
+          options={{title: '저장소 찾기'}}
+        />
       </RootStack.Navigator>
     </NavigationContainer>
   );

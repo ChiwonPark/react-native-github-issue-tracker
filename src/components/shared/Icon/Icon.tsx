@@ -1,12 +1,5 @@
 import * as React from 'react';
-import {
-  Text,
-  View,
-  StyleSheet,
-  ViewStyle,
-  StyleProp,
-  ImageStyle,
-} from 'react-native';
+import {ImageStyle, StyleProp, StyleSheet} from 'react-native';
 import VectorImage from 'react-native-vector-image';
 import svg from './svg';
 

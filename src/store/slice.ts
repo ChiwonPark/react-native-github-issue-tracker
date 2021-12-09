@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {FilterType, Repository} from '../api/types';
 import Toast from 'react-native-toast-message';
 import {AppThunk} from '.';
+import {FilterType, Repository} from '../api/types';
 
 type RootState = {
   repositories: Repository[];
@@ -21,8 +21,15 @@ const slice = createSlice({
   name: 'root',
   initialState,
   reducers: {
-    setFilter: (state, {payload}: PayloadAction<FilterType>) => {
+    setFilter: (state, {payload}: PayloadAction<Partial<FilterType>>) => {
       state.filter = {...state.filter, ...payload};
+    },
+    resetFilter: state => {
+      state.filter = {
+        issueState: 'all',
+        repos: state.repositories.map(e => e.full_name),
+        sort: 'newest',
+      };
     },
     addRepository: (state, {payload}: PayloadAction<Repository>) => {
       state.repositories.push(payload);
@@ -58,6 +65,7 @@ export const toggleRepository =
     }
   };
 
-export const {setFilter, addRepository, removeRepository} = slice.actions;
+export const {setFilter, resetFilter, addRepository, removeRepository} =
+  slice.actions;
 
 export default slice;

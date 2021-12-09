@@ -1,10 +1,10 @@
 import * as React from 'react';
 import {
-  View,
   Image,
   Linking,
   StyleSheet,
   TouchableWithoutFeedback,
+  View,
 } from 'react-native';
 import {Issue} from '../api/types';
 import colors from '../lib/colors';
