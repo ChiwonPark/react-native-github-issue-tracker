@@ -16,11 +16,11 @@ apiClient.interceptors.response.use(
   },
   function (error) {
     //https://docs.github.com/en/rest/overview/resources-in-the-rest-api#failed-login-limit
-    if (error.response.status === 401) {
+    if (error?.response?.status === 401) {
       error.message = '인증이 유효하지 않습니다.';
     }
 
-    if (error.response.status === 403) {
+    if (error?.response?.status === 403) {
       error.message =
         '요청 횟수가 초과되었습니다.\n최대 1시간 이후 다시 시도하세요.';
     }

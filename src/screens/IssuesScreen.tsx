@@ -1,7 +1,7 @@
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {CompositeScreenProps} from '@react-navigation/core';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -50,6 +50,8 @@ const IssuesScreen = ({navigation}: Props) => {
     Toast.error(error);
   }, [error]);
 
+  const renderItem = useCallback(({item}) => <IssueListItem data={item} />, []);
+
   return (
     <View style={styles.container}>
       <IssueFilter visibleShadow={!isScrollTop} />
@@ -95,7 +97,7 @@ const IssuesScreen = ({navigation}: Props) => {
               }
             }
           }}
-          renderItem={({item}) => <IssueListItem data={item} />}
+          renderItem={renderItem}
           ListHeaderComponent={() => <Spacer height={12} />}
           ListEmptyComponent={() => (
             <View style={[styles.container, styles.center]}>
