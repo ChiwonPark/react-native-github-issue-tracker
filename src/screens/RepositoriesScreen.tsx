@@ -3,7 +3,6 @@ import {CompositeScreenProps} from '@react-navigation/core';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React, {useEffect, useState} from 'react';
 import {ActivityIndicator, ScrollView, StyleSheet, View} from 'react-native';
-import Toast from 'react-native-toast-message';
 import {useSelector} from 'react-redux';
 import api from '../api';
 import {Repository} from '../api/types';
@@ -14,6 +13,7 @@ import {
   RootStackParamList,
 } from '../navigators/RootNavigator';
 import {RootState} from '../store';
+import Toast from '../utils/Toast';
 
 type Props = CompositeScreenProps<
   BottomTabScreenProps<HomeTabParamList, 'Repositories'>,
@@ -37,12 +37,8 @@ export default function RepositoriesScreen({navigation}: Props) {
       );
       const result = await Promise.all(promises);
       setRepositories(result);
-    } catch (error) {
-      console.log(error);
-      Toast.show({
-        type: 'error',
-        text1: '오류가 발생했습니다. 잠시 후 다시 시도해주세요.',
-      });
+    } catch (error: any) {
+      Toast.error(error);
     } finally {
       setIsLoading(false);
     }

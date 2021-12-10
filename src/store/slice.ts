@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import Toast from 'react-native-toast-message';
 import {AppThunk} from '.';
 import {FilterType, Repository} from '../api/types';
+import Toast from '../utils/Toast';
 
 type RootState = {
   repositories: Repository[];
@@ -46,22 +46,12 @@ export const toggleRepository =
     const {repositories} = getState();
     if (repositories.find(e => e.id === repo.id)) {
       dispatch(removeRepository(repo.id));
-      Toast.show({
-        text1: '삭제되었습니다.',
-        position: 'bottom',
-      });
+      Toast.show('삭제되었습니다.');
     } else if (repositories.length >= 4) {
-      Toast.show({
-        text1: '최대 4개까지만 등록할 수 있습니다.',
-        position: 'bottom',
-        type: 'error',
-      });
+      Toast.show('최대 4개까지만 등록할 수 있습니다.');
     } else {
       dispatch(addRepository(repo));
-      Toast.show({
-        text1: '저장소가 등록되었습니다.',
-        position: 'bottom',
-      });
+      Toast.show('저장소가 등록되었습니다.');
     }
   };
 

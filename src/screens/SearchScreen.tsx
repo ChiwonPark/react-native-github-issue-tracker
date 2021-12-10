@@ -1,7 +1,6 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React, {useCallback, useState} from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
-import Toast from 'react-native-toast-message';
 import {useDispatch, useSelector} from 'react-redux';
 import api from '../api';
 import {Repository} from '../api/types';
@@ -11,6 +10,7 @@ import {Text} from '../components/shared';
 import {RootStackParamList} from '../navigators/RootNavigator';
 import {RootState} from '../store';
 import {toggleRepository} from '../store/slice';
+import Toast from '../utils/Toast';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Search'>;
 
@@ -27,11 +27,8 @@ const SearchScreen = (props: Props) => {
     try {
       const data = await api.getRepositoriesByName(keyword);
       setSearchResult(data.items);
-    } catch (error) {
-      Toast.show({
-        type: 'error',
-        text1: '오류가 발생했습니다. 잠시 후 다시 시도해주세요.',
-      });
+    } catch (error: any) {
+      Toast.error(error);
     }
   };
 
