@@ -7,6 +7,7 @@ type FloatingButtonProps = {
   icon?: IconType;
   opacity?: number;
   backgroundColor?: string;
+  zIndex?: number;
   onPress?: () => void;
 };
 
@@ -15,11 +16,13 @@ const FloatingButton = ({
   icon,
   opacity,
   backgroundColor,
+  zIndex = 100,
   onPress,
 }: FloatingButtonProps) => {
   const style = {
     backgroundColor,
     opacity,
+    zIndex,
   };
   return (
     <TouchableOpacity
@@ -30,7 +33,7 @@ const FloatingButton = ({
   );
 };
 
-export default FloatingButton;
+export default React.memo(FloatingButton);
 
 const styles = StyleSheet.create({
   container: {
