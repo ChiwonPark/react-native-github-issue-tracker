@@ -1,7 +1,6 @@
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {CompositeScreenProps} from '@react-navigation/core';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import axios from 'axios';
 import React, {useEffect, useRef, useState} from 'react';
 import {
   ActivityIndicator,
@@ -11,17 +10,16 @@ import {
   useWindowDimensions,
   View,
 } from 'react-native';
-import Toast from 'react-native-toast-message';
 import IssueFilter from '../components/IssueFilter';
 import IssueListItem from '../components/IssueListItem';
-import {Spacer, Text, FloatingButton} from '../components/shared';
+import {FloatingButton, Spacer, Text} from '../components/shared';
 import {useFetchIssues} from '../hooks';
-
 import colors from '../lib/colors';
 import {
   HomeTabParamList,
   RootStackParamList,
 } from '../navigators/RootNavigator';
+import Toast from '../utils/Toast';
 
 type Props = CompositeScreenProps<
   BottomTabScreenProps<HomeTabParamList, 'Issues'>,
@@ -49,11 +47,7 @@ const IssuesScreen = ({navigation}: Props) => {
   useEffect(() => {
     if (!error) return;
 
-    Toast.show({
-      type: 'error',
-      position: 'bottom',
-      text1: error.message || '오류가 발생했습니다. 잠시 후 다시 시도해주세요.',
-    });
+    Toast.error(error);
   }, [error]);
 
   return (
