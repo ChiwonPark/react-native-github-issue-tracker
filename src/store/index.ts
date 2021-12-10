@@ -22,7 +22,8 @@ export const store = configureStore({
       serializableCheck: false,
     })
       .concat(filterMiddleware)
-      .concat(reduxDebugger);
+      .concat(reduxDebugger)
+      .filter(e => e);
   },
 });
 
