@@ -8,8 +8,7 @@ import {
 } from 'react-native';
 import {Repository} from '../api/types';
 import colors from '../lib/colors';
-import Dot from './Dot';
-import {Icon} from './shared';
+import {Icon, Dot} from './shared';
 
 type SearchListItemProps = {
   data: Repository;

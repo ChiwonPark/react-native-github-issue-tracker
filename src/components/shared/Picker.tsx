@@ -1,8 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {View, StyleSheet, ModalProps} from 'react-native';
-import PickerItem from './PickerItem';
-import {Text} from './shared';
-import ModalBase from './shared/ModalBase';
+import {Text, PickerItem} from '.';
+import ModalBase from './ModalBase';
 
 type PickerItem = {
   label: string;
@@ -45,7 +44,7 @@ const Picker = ({title, items, value, onSelect, ...props}: PickerProps) => {
   );
 };
 
-export default Picker;
+export default React.memo(Picker);
 
 const styles = StyleSheet.create({
   popupContainer: {

@@ -12,8 +12,7 @@ import {useDispatch} from 'react-redux';
 import {Repository} from '../api/types';
 import colors from '../lib/colors';
 import {removeRepository} from '../store/slice';
-import Dot from './Dot';
-import {Icon, Spacer, Text} from './shared';
+import {Icon, Spacer, Text, Dot} from './shared';
 
 type RepositoryCardProps = {
   data: Repository;

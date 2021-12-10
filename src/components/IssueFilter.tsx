@@ -1,13 +1,11 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import {Platform, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {Platform, StyleSheet, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import colors from '../lib/colors';
 import {RootState} from '../store';
 import {setFilter} from '../store/slice';
 import Formatter from '../utils/Formatter';
-import Picker from './Picker';
-import PickerItem from './PickerItem';
-import {Button, Chip, Icon, Spacer, Text} from './shared';
+import {Button, Chip, Icon, Picker, PickerItem, Spacer, Text} from './shared';
 import ModalBase from './shared/ModalBase';
 
 type IssueFilterProps = {

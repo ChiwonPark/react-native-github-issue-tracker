@@ -18,4 +18,4 @@ const Dot = ({style: styleProp, color = '#000', size = 12}: DotProps) => {
   return <View style={[style, styleProp]} />;
 };
 
-export default Dot;
+export default React.memo(Dot);

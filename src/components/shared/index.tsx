@@ -7,3 +7,6 @@ export {default as Spacer} from './Spacer';
 export {default as Text} from './Text';
 export {default as TextInput} from './TextInput';
 export {default as FloatingButton} from './FloatingButton';
+export {default as Dot} from './Dot';
+export {default as Picker} from './Picker';
+export {default as PickerItem} from './PickerItem';

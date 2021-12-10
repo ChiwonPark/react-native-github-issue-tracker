@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
-import {Icon, Text} from './shared';
+import {Icon, Text} from '.';
 
 type PickerItemProps = {
   label: string;
@@ -19,7 +19,7 @@ const PickerItem = ({label, selected, onPress}: PickerItemProps) => {
   );
 };
 
-export default PickerItem;
+export default React.memo(PickerItem);
 
 const styles = StyleSheet.create({
   checkItem: {
