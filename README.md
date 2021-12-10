@@ -1,4 +1,4 @@
-# React Native로 제작된 Github Issue Tracker App
+# React Native based Github Issue Tracker App
 
 # Getting Started
 
