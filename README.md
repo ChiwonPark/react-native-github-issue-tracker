@@ -4,7 +4,7 @@
 
 1. Clone the repository.
 ```
-https://github.com/ChiwonPark/react-native-github-issue-tracker.git
+git clone https://github.com/ChiwonPark/react-native-github-issue-tracker.git
 ```
 
 2. `npm i` or `yarn`
